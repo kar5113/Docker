@@ -226,6 +226,8 @@ By default, Docker creates three networks: bridge, host, and none.
     docker network prune to remove all unused networks
     docker network connect <network_name> <container_id> to connect a container to a network
     docker network disconnect <network_name> <container_id> to disconnect a container from a network
+    
+
 
     
     
