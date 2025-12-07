@@ -139,5 +139,7 @@ Docker file commands:
         Example : FROM ubuntu:20.04 {specifies that the base image is Ubuntu 20.04.} if no tag is specified, latest is used by default.
     RUN: Executes a command in the container during the build process.
         Example : RUN apt-get update && apt-get install -y python3 {updates the package list and installs Python 3.}
+    CMD : Provides a default command to run when the container starts.
+        Example : CMD ["python3", "app.py"] {runs the app.py script using Python 3 when the container starts.}    
     COPY: Copies files or directories from the host machine to the container
         Example : COPY . /app {copies the current directory contents into the container at /app}
