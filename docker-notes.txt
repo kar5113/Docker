@@ -202,6 +202,19 @@ Docker file commands:
         Example : SHELL ["/bin/bash", "-c"] {sets the default shell to /bin/bash with the -c option.}
     ONBUILD: Adds a trigger instruction to the image that will be executed when the image is used as the base for another build. Can be used to create base images that automatically include certain instructions when extended.
          It is useful for creating reusable base images with predefined behaviors liken installing dependencies or setting up configurations.
-        Example : ONBUILD RUN apt-get update && apt-get install -y curl {adds a trigger instruction to run the specified command when the image is used as a base image.}    
+        Example : ONBUILD RUN apt-get update && apt-get install -y curl {adds a trigger instruction to run the specified command when the image is used as a base image.}  
+
+
+### Docker network 
+Docker network is a virtual network that allows Docker containers to communicate with each other and with the host system.
+By default, Docker creates three networks: bridge, host, and none.
+- Bridge: The default network driver. It creates a private internal network on the host system.
+  By default on bridge netwrok containers can communicate with each other using IP addresses but not by container names.
+- Host: Removes network isolation between the container and the host system. The container shares the host's network stack.
+- None: Disables all networking for the container.
+
+- Custom network: Containers can communicate with each other using container names as hostnames.      
+    # Create a custom bridge network     
+    docker network create <network_name>     
     
     
