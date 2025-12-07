@@ -228,6 +228,8 @@ By default, Docker creates three networks: bridge, host, and none.
     docker network disconnect <network_name> <container_id> to disconnect a container from a network
     
 
-
+#### DOCKER login
+docker login
+This command is used to log in to a Docker registry, such as Docker Hub. It prompts for your username and password.
     
     
