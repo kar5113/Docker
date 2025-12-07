@@ -1,7 +1,7 @@
 #!/bin/bash
-growpart /dev/nvme0n1 4
-lvextend -L +30G /dev/mapper/RootVG-varVol
-xfs_growfs /var
+# growpart /dev/nvme0n1 4
+# lvextend -L +30G /dev/mapper/RootVG-varVol
+# xfs_growfs /var
 
 sudo dnf remove docker \
                   docker-client \
