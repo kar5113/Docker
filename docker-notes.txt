@@ -1,0 +1,143 @@
+### Installing Docker
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable docker
+sudo systemctl start docker
+By default docker creates a docker group during installation. You can add your user to the docker group to run docker commands without sudo.
+sudo usermod -aG docker $USER
+
+/var/lib/docker/ is the default location where Docker stores its data including images, containers, volumes, and networks.
+
+### Docker commands
+# List all containers (only running)
+docker ps   
+
+ # List all containers (including stopped)
+docker ps -a
+
+# List all images
+docker images
+
+# Pull an image from Docker Hub
+docker pull <image_name>:<tag>
+
+# Run a container interactively or Execute a command in a running container
+docker run -it <image_name> /bin/bash
+
+# Stop a running container
+docker stop <container_id>
+
+# Remove a container
+docker rm <container_id>
+
+# Remove an image
+docker rmi <image_name>
+use -f flag to force remove container or image
+
+# Remove all stopped containers
+docker container prune
+
+# Remove all unused images
+docker image prune -a
+
+# View logs of a container
+docker logs <container_id>
+
+#Run a container in detached mode
+docker run -d <image_name>
+
+# Docker create a container without starting it
+docker create <image_name>
+
+#Docker start a container
+docker start <container_id>
+
+#Docker restart a container
+docker restart <container_id>
+
+#Docker pause a container
+docker pause <container_id>
+
+#Docker unpause a container
+docker unpause <container_id>
+
+#Docker inspect a container
+docker inspect <container_id>
+
+#Docker exec to run a command in a running container
+docker exec -it <container_id> <command>
+
+#Docker commit to create a new image from a container
+docker commit <container_id> <new_image_name>
+
+#Docker network ls to list all networks
+docker network ls
+
+#Docker volume ls to list all volumes
+docker volume ls
+
+#Docker system prune to remove all unused data
+docker system prune -a
+
+#Docker build to build an image from a Dockerfile
+docker build -t <image_name> <path_to_dockerfile>
+
+#Docker tag to tag an image
+docker tag <source_image> <target_image>
+
+#Docker push to push an image to a registry
+docker push <image_name>
+
+#Docker stats to display a live stream of container resource usage statistics
+docker stats
+
+#Docker top to display the running processes of a container
+docker top <container_id>
+
+#Docker diff to inspect changes to files or directories on a container's filesystem
+docker diff <container_id>
+
+#Docker cp to copy files/folders between a container and the local filesystem
+docker cp <container_id>:<path_in_container> <path_on_host>
+
+#Docker login to log in to a Docker registry
+docker login
+
+# This command runs an Nginx container in detached mode, names it "mynginx", and maps port 8080 on the host to port 80 in the container.
+docker run -d --name mynginx -p 8080:80 nginx
+docker run -d --name <container_name> -p <host_port>:<container_port> <image_name>
+# This command runs an Nginx container in detached mode, names it "mynginx", and maps port 8080 on the host to port 80 in the container.
+
+
+### Docker build command
+docker build -t <image_name>:<tag> <path_to_dockerfile>
+-t is used to specify the name and optionally a tag in the 'name:tag' format.
+Example:
+docker build -t myapp:1.0 .
+# This command builds a Docker image named "myapp" with the tag "1.0" using the Dockerfile located in the current directory (denoted by the dot ".").
+
+
+### Docker push command
+docker push <image_name>:<tag>
+docker push <url>/<image_name>:<tag> if the target repository is a private registry.
+Example : to tag and push an image to a private registry 
+docker tag myapp:1.0 myregistry.com/myapp:1.0 or docker tag <source_image_tag> <target_image_tag> better to tag with username
+docker tag <source_image>:<tag> <user_name>/<target_image>:<tag>
+docker push myregistry.com/myapp:1.0
+This command is used to upload a Docker image to a Docker registry, such as Docker Hub.
+
+
+###Docker file 
+
+A docker file is a text document that contains all the commands a user could call on the command line to assemble an image. 
+Using docker build users can create an automated build that executes several command-line instructions in succession.
+It can be simply defined as instructions to build a docker image.
+Docker file must be named as 'Dockerfile' with no extension.
+Docker file commands:
+    FROM: Specifies the base image to use for the Docker image.
+        Example : FROM ubuntu:20.04 {specifies that the base image is Ubuntu 20.04.} if no tag is specified, latest is used by default.
+    RUN: Executes a command in the container during the build process.
+        Example : RUN apt-get update && apt-get install -y python3 {updates the package list and installs Python 3.}
+    COPY: Copies files or directories from the host machine to the container
+        Example : COPY . /app {copies the current directory contents into the container at /app}
