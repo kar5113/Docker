@@ -216,5 +216,16 @@ By default, Docker creates three networks: bridge, host, and none.
 - Custom network: Containers can communicate with each other using container names as hostnames.      
     # Create a custom bridge network     
     docker network create <network_name>     
+    # Run containers in the custom network     
+    docker run -d --name container1 --network <network_name> <image_name>     
+    docker run -d --name container2 --network <network_name> <image_name>     
+    # Now container1 can communicate with container2 using its name as the hostname
+    docker network ls to list all networks
+    docker network inspect <network_name> to inspect a network
+    docker network rm <network_name> to remove a network
+    docker network prune to remove all unused networks
+    docker network connect <network_name> <container_id> to connect a container to a network
+    docker network disconnect <network_name> <container_id> to disconnect a container from a network
+
     
     
