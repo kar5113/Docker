@@ -52,7 +52,7 @@ services:
     - redis
     - catalogue
   shipping:
-    image: kar5513/shipping:v1
+    image: kar513/shipping:v1
     container_name: shipping
     # networks:
     #   - roboshop
