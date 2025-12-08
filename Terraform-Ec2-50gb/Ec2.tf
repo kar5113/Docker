@@ -20,7 +20,7 @@ resource "aws_instance" "Docker-roboshop" {
     volume_size = 50
   }
   user_data = file("${path.module}/volume-change.sh")
-user_data_replace_on_change = true
+  user_data_replace_on_change = true
   tags = {
     Name = "Docker"
   }
