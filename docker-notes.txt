@@ -277,5 +277,36 @@ There are named volumes and anonymous volumes.
 - Anonymous volumes: Created without a specific name and are automatically removed when the container is removed. These are useful for temporary data storage. and are created by us manually.
   Example: docker run -d --name mycontainer -v /data myimage  
 
+
+
+####Docker best practices
+- Use official images from Docker Hub as base images whenever possible.
+- Keep images small by minimizing the number of layers and removing unnecessary files.
+- Use multi-stage builds to separate build and runtime environments.
+- Avoid running processes as the root user inside containers.
+- Use .dockerignore files to exclude unnecessary files from the build context.
+- Regularly update images to include security patches and updates.
+- Use environment variables for configuration instead of hardcoding values in Dockerfiles.
+- Monitor and log container activity for troubleshooting and performance analysis.
+
+## Docker multi-stage builds
+Multi-stage builds are a feature in Docker that allows you to use multiple FROM statements in a single Dockerfile.
+This enables you to create intermediate images that can be used to build the final image, reducing the overall size of the final image.
+Example Dockerfile using multi-stage builds:
+```Dockerfile
+# Stage 1: Build stage
+FROM golang:1.16 AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o myapp
+# Stage 2: Final stage
+FROM alpine:latest
+WORKDIR /app
+COPY --from=builder /app/myapp .
+CMD ["./myapp"]
+```
+```
+In this example, the first stage uses the official Golang image to build a Go application. The second stage uses a lightweight Alpine image to run the built application.
+The final image only contains the necessary files to run the application, resulting in a smaller image size.
     
     
