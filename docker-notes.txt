@@ -310,5 +310,22 @@ CMD ["./myapp"]
 ```
 In this example, the first stage uses the official Golang image to build a Go application. The second stage uses a lightweight Alpine image to run the built application.
 The final image only contains the necessary files to run the application, resulting in a smaller image size.
-    
+
+
+##bDocker layers
+Docker images are made up of layers, which are essentially read-only filesystems stacked on top of each other.
+Each layer represents a set of changes made to the image, such as adding files, installing packages, or modifying configurations.
+When you build a Docker image, each instruction in the Dockerfile creates a new layer.
+Layers are cached, so if you rebuild an image and a layer hasn't changed, Docker will reuse the cached layer instead of rebuilding it.
+This makes subsequent builds faster and more efficient.
+You can view the layers of a Docker image using the docker history command:
+docker history <image_name>
+This command will display a list of layers, along with their sizes and the commands that created them.
+Make sure to order your Dockerfile instructions from least to most frequently changing to maximize layer caching and reduce build times.
+Combine related commands into a single instruction to minimize the number of layers and reduce image size.
+    Example: Instead of:
+    RUN apt-get update
+    RUN apt-get install -y package1
+    Use:
+    RUN apt-get update && apt-get install -y package1
     

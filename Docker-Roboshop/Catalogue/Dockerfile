@@ -26,6 +26,9 @@ COPY package.json .
 RUN npm install
 
 FROM node:20.19.6-alpine3.23
+LABEL project="roboshop" \
+      component ="catalogue" \
+      version="2.0"   
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 WORKDIR /opt/server
 COPY --from=build /opt/server .

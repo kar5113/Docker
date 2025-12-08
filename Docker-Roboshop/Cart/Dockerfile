@@ -18,6 +18,9 @@ RUN npm install
 
 
 FROM node:20.19.6-alpine3.23
+LABEL project="roboshop" \
+      component ="cart" \
+      version="2.0"   
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 WORKDIR /opt/server
 COPY --from=build /opt/server .
@@ -28,4 +31,5 @@ ENV REDIS_HOST="redis" \
 RUN chown -R roboshop:roboshop /opt/server
 USER roboshop    
 EXPOSE 8080
-CMD ["node","server.js"]  
+ENTRYPOINT ["node"]
+CMD ["server.js"]  
