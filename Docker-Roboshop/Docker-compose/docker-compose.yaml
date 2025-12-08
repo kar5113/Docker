@@ -2,6 +2,8 @@ services:
   mongodb:
     image : kar5113/mongodb:v1
     container_name: mongodb
+    Volumes:
+      - mongodb:/data/db
     # networks:
     #   - roboshop
 
@@ -16,6 +18,8 @@ services:
   redis:
     image: redis:7
     container_name: redis
+    Volumes:
+      - redis:/data
     # networks:
     #   - roboshop
 
@@ -31,6 +35,8 @@ services:
   mysql:
     image: kar5113/mysql:v1
     container_name: mysql
+    volumes:
+      - mysql: /var/lib/mysql
     # networks:
     #   - roboshop
 
@@ -39,6 +45,8 @@ services:
     environment:
        RABBITMQ_DEFAULT_USER: roboshop
        RABBITMQ_DEFAULT_PASS: roboshop123
+    volumes:
+      - rabbitmq: /var/lib/rabbitmq   
     # networks: 
     #   - roboshop
     container_name: rabbitmq   
@@ -84,8 +92,15 @@ services:
       - cart
       - payment      
 
+##Network creation, can create multiple ones, if so then you you have to attach respectively to each one of the service like the actual commented one as now.
 networks:
   default:
     driver: bridge
     name: roboshop
     external: false
+
+Volumes:
+  mongodb:
+  redis:
+  mysql:
+  rabbitmq:    
