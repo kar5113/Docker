@@ -2,6 +2,85 @@ services:
   mongodb:
     image : kar5113/mongodb:v1
     container_name: mongodb
+    # networks:
+    #   - roboshop
+
+  catalogue:
+    image : kar5113/catalogue:v3
+    container_name: catalogue
+    depends_on:
+      - mongodb
+    # networks:
+    #   - roboshop    
+
+  redis:
+    image: redis:7
+    container_name: redis
+    # networks:
+    #   - roboshop
+
+  user:
+    image: kar5113/user:v1
+    container_name: user
+    depends_on:
+      - mongodb
+      - redis
+    # networks:
+    #   - roboshop
+
+  mysql:
+    image: kar5113/mysql:v1
+    container_name: mysql
+    # networks:
+    #   - roboshop
+
+  rabbitmq:
+    image: rabbitmq:3
+    environment:
+      - RABBITMQ_DEFAULT_USER: roboshop
+      - RABBITMQ_DEFAULT_PASS: roboshop123
+    # networks: 
+    #   - roboshop
+    container_name: rabbitmq   
+
+  cart:
+    image: kar5113/cart:v1     
+    container_name: cart
+    # networks:
+    #   - roboshop
+    depends_on:
+    - redis
+    - catalogue
+  shipping:
+    image: kar5513/shipping:v1
+    container_name: shipping
+    # networks:
+    #   - roboshop
+    depends_on: 
+      - cart
+      - mysql
+
+  payment:
+    image: kar5113/payment:v1
+    container_name: payment
+    # networks:
+    #   - roboshop
+    depends_on:
+      - cart
+      - user
+      - rabbitmq  
+
+  frontend: 
+    image: kar5113/frontend:v1
+    container_name: frontend
+    # networks: 
+    #   - roboshop
+    depends_on:
+      - user
+      - catalogue
+      - shipping
+      - cart
+      - payment      
 
 networks:
   default:
