@@ -21,6 +21,9 @@ RUN mvn clean package && \
 
 
 FROM eclipse-temurin:17-jre-alpine
+LABEL project="roboshop" \
+      component="shipping" \
+      version="2.0" 
 EXPOSE 8080  
 WORKDIR /opt/app
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop && \
