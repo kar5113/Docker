@@ -3,7 +3,7 @@ services:
     image : kar5113/mongodb:v1
     container_name: mongodb
     Volumes:
-      - mongodb:/data/db
+    - mongodb:/data/db
     # networks:
     #   - roboshop
 
@@ -19,7 +19,7 @@ services:
     image: redis:7
     container_name: redis
     Volumes:
-      - redis:/data
+    - redis:/data
     # networks:
     #   - roboshop
 
@@ -36,7 +36,7 @@ services:
     image: kar5113/mysql:v1
     container_name: mysql
     volumes:
-      - mysql:/var/lib/mysql
+    - mysql:/var/lib/mysql
     # networks:
     #   - roboshop
 
@@ -46,7 +46,7 @@ services:
        RABBITMQ_DEFAULT_USER: roboshop
        RABBITMQ_DEFAULT_PASS: roboshop123
     volumes:
-      - rabbitmq:/var/lib/rabbitmq   
+    - rabbitmq:/var/lib/rabbitmq   
     # networks: 
     #   - roboshop
     container_name: rabbitmq   
