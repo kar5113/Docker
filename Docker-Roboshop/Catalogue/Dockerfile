@@ -7,7 +7,7 @@
 #     MONGO="true"
 # EXPOSE 8080
 # CMD ["node","server.js"]
-node:20.19.6-alpine3.23
+
 
 FROM node:20.19.6-alpine3.23
 WORKDIR /opt/server
