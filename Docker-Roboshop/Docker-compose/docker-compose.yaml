@@ -45,8 +45,8 @@ services:
     environment:
        RABBITMQ_DEFAULT_USER: roboshop
        RABBITMQ_DEFAULT_PASS: roboshop123
-    volumes:
-      - rabbitmq: /var/lib/rabbitmq   
+    # volumes:
+    #   - rabbitmq: /var/lib/rabbitmq   
     # networks: 
     #   - roboshop
     container_name: rabbitmq   
