@@ -288,6 +288,8 @@ There are named volumes and anonymous volumes.
 - Regularly update images to include security patches and updates.
 - Use environment variables for configuration instead of hardcoding values in Dockerfiles.
 - Monitor and log container activity for troubleshooting and performance analysis.
+- Use read only file systems for containers whenever possible.
+- Dont store sensitive data like passwords, API keys, etc in Docker images.
 
 ## Docker multi-stage builds
 Multi-stage builds are a feature in Docker that allows you to use multiple FROM statements in a single Dockerfile.
