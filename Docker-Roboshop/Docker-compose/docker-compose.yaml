@@ -99,7 +99,7 @@ networks:
     name: roboshop
     external: false
 
-Volumes:
+volumes:
   mongodb:
   redis:
   mysql:
