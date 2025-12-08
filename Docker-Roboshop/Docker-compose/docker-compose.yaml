@@ -6,7 +6,7 @@ services:
     #   - roboshop
 
   catalogue:
-    image : kar5113/catalogue:v3
+    image : kar5113/catalogue:v1
     container_name: catalogue
     depends_on:
       - mongodb
