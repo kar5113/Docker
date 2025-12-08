@@ -20,6 +20,7 @@ WORKDIR /opt/app
 COPY requirements.txt .
 COPY *.py .
 COPY *.ini .
+RUN apk add --no-cache gcc musl-dev python3-dev
 RUN pip3 install -r requirements.txt
 
 
