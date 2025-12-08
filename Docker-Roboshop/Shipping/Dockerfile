@@ -12,7 +12,7 @@
 
 
 
-FROM maven:3.9.11 AS build
+FROM maven:3.9.11 AS builder
 WORKDIR /opt/app
 COPY pom.xml .
 COPY src ./src/
@@ -27,6 +27,6 @@ RUN addgroup -S roboshop && adduser -S roboshop -G roboshop && \
     chown -R roboshop:roboshop /opt/app
 ENV CART_ENDPOINT="cart:8080" \
     DB_HOST=mysql 
-COPY --from=build /opt/app/shipping.jar shipping.jar
+COPY --from=builder /opt/app/shipping.jar shipping.jar
 USER roboshop
 CMD ["java","-jar","shipping.jar"]   
