@@ -22,10 +22,10 @@ RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 WORKDIR /opt/server
 COPY --from=build /opt/server .
 COPY *.js .
-RUN chown -R roboshop:roboshop /opt/server
-USER roboshop
 ENV REDIS_HOST="redis" \
     CATALOGUE_HOST="catalogue" \
     CATALOGUE_PORT="8080"
+RUN chown -R roboshop:roboshop /opt/server
+USER roboshop    
 EXPOSE 8080
 CMD ["node","server.js"]  
