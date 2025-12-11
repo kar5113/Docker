@@ -1,5 +1,6 @@
 services: 
   mongodb:
+    
     image : kar5113/mongodb:v1
     container_name: mongodb
     volumes:
@@ -8,7 +9,7 @@ services:
     #   - roboshop
 
   catalogue:
-    image : kar5113/catalogue:v1
+    image : kar5113/catalogue:v2
     container_name: catalogue
     depends_on:
       - mongodb
@@ -24,7 +25,7 @@ services:
     #   - roboshop
 
   user:
-    image: kar5113/user:v1
+    image: kar5113/user:v2
     container_name: user
     depends_on:
       - mongodb
@@ -52,7 +53,7 @@ services:
     container_name: rabbitmq   
 
   cart:
-    image: kar5113/cart:v1     
+    image: kar5113/cart:v2     
     container_name: cart
     # networks:
     #   - roboshop
@@ -60,7 +61,7 @@ services:
     - redis
     - catalogue
   shipping:
-    image: kar5113/shipping:v1
+    image: kar5113/shipping:v2
     container_name: shipping
     # networks:
     #   - roboshop
@@ -69,7 +70,7 @@ services:
       - mysql
 
   payment:
-    image: kar5113/payment:v1
+    image: kar5113/payment:v2
     container_name: payment
     # networks:
     #   - roboshop
