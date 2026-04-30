@@ -1,159 +1,168 @@
-### Installing Docker
+## Installing Docker
+```sh
 sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo systemctl enable docker
 sudo systemctl start docker
+```
 By default docker creates a docker group during installation. You can add your user to the docker group to run docker commands without sudo.
+```sh
 sudo usermod -aG docker $USER
+```
 
 /var/lib/docker/ is the default location where Docker stores its data including images, containers, volumes, and networks.
 
-### Docker commands
-# List all containers (only running)
+## Docker commands
+- List all containers (only running)
 docker ps   
 
- # List all containers (including stopped)
+- List all containers (including stopped)
 docker ps -a
 
-# List all images
+- List all images
 docker images
 
-# Pull an image from Docker Hub
+- Pull an image from Docker Hub
 docker pull <image_name>:<tag>
 
-# Run a container interactively or Execute a command in a running container
+- Run a container interactively or Execute a command in a running container
 docker run -it <image_name> /bin/bash
 
-# Stop a running container
+- Stop a running container
 docker stop <container_id>
 
-# Remove a container
+- Remove a container
 docker rm <container_id>
 
-# Remove an image
+- Remove an image
 docker rmi <image_name>
 use -f flag to force remove container or image
 
-# Remove all stopped containers
+- Remove all stopped containers
 docker container prune
 
-# Remove all unused images
+- Remove all unused images
 docker image prune -a
 
-# View logs of a container
+- View logs of a container
 docker logs <container_id>
 
-#Run a container in detached mode
+- Run a container in detached mode
 docker run -d <image_name>
 
-# Docker create a container without starting it
+- Docker create a container without starting it
 docker create <image_name>
 
-#Docker start a container
+- Start a container
 docker start <container_id>
 
-#Docker restart a container
+- Restart a container
 docker restart <container_id>
 
-#Docker pause a container
+- Pause a container
 docker pause <container_id>
 
-#Docker unpause a container
+- Unpause a container
 docker unpause <container_id>
 
-#Docker inspect a container
+- Inspect a container
 docker inspect <container_id>
 
-#Docker exec to run a command in a running container
+- Execute a command in a running container
 docker exec -it <container_id> <command>
 
-#Docker commit to create a new image from a container
+- Create a new image from a container
 docker commit <container_id> <new_image_name>
 
-#Docker network ls to list all networks
+- List all networks
 docker network ls
 
-#Docker volume ls to list all volumes
+- List all volumes
 docker volume ls
 
-#Docker system prune to remove all unused data
+- Remove all unused data
 docker system prune -a
 
-#Docker build to build an image from a Dockerfile
+- Docker build to build an image from a Dockerfile
 docker build -t <image_name> <path_to_dockerfile>
 
-#Docker tag to tag an image
+- Tag an image
 docker tag <source_image> <target_image>
 
-#Docker push to push an image to a registry
+- Push an image to a registry
 docker push <image_name>
 
-#Docker stats to display a live stream of container resource usage statistics
+- Display a live stream of container resource usage statistics
 docker stats
 
-#Docker top to display the running processes of a container
+- Display the running processes of a container
 docker top <container_id>
 
-#Docker diff to inspect changes to files or directories on a container's filesystem
+- Inspect changes to files or directories on a container's filesystem
 docker diff <container_id>
 
-#Docker cp to copy files/folders between a container and the local filesystem
+- Copy files/folders between a container and the local filesystem
 docker cp <container_id>:<path_in_container> <path_on_host>
 
-#Docker login to log in to a Docker registry
+- Log in to a Docker registry
 docker login
 
-# This command runs an Nginx container in detached mode, names it "mynginx", and maps port 8080 on the host to port 80 in the container.
+- This command runs an Nginx container in detached mode, names it "mynginx", and maps port 8080 on the host to port 80 in the container.
 docker run -d --name mynginx -p 8080:80 nginx
 docker run -d --name <container_name> -p <host_port>:<container_port> <image_name>
-# This command runs an Nginx container in detached mode, names it "mynginx", and maps port 8080 on the host to port 80 in the container.
 
 
-### Docker build command
+## Docker build command
 docker build -t <image_name>:<tag> <path_to_dockerfile>
 -t is used to specify the name and optionally a tag in the 'name:tag' format.
 Example:
 docker build -t myapp:1.0 .
-# This command builds a Docker image named "myapp" with the tag "1.0" using the Dockerfile located in the current directory (denoted by the dot ".").
+- This command builds a Docker image named "myapp" with the tag "1.0" using the Dockerfile located in the current directory (denoted by the dot ".").
 
 
-### Docker push command
+## Docker push command
+```Dockerfile
 docker push <image_name>:<tag>
 docker push <url>/<image_name>:<tag> if the target repository is a private registry. like ecr or other private registries.
-Example : to tag and push an image to a private registry 
+# Example : to tag and push an image to a private registry 
 docker tag myapp:1.0 myregistry.com/myapp:1.0 or docker tag <source_image_tag> <target_image_tag> better to tag with username
 docker tag <source_image>:<tag> <user_name>/<target_image>:<tag>
 docker push myregistry.com/myapp:1.0
+```
 This command is used to upload a Docker image to a Docker registry, such as Docker Hub.
 
 
-###Docker file 
+## Docker file 
 
 A docker file is a text document that contains all the commands a user could call on the command line to assemble an image. 
+
 Using docker build users can create an automated build that executes several command-line instructions in succession.
+
 It can be simply defined as instructions to build a docker image.
+
 Docker file must be named as 'Dockerfile' with no extension.
+
 Docker file commands:
-    FROM: Specifies the base image to use for the Docker image.
+- ```FROM:``` Specifies the base image to use for the Docker image.
         Example : FROM ubuntu:20.04 {specifies that the base image is Ubuntu 20.04.} if no tag is specified, latest is used by default.
-    RUN: Executes a command in the container during the build process. It is used to install software packages and perform other setup tasks. 
+- ```RUN:``` Executes a command in the container during the build process. It is used to install software packages and perform other setup tasks. 
          Its is executed during the image build time.
         Example : RUN apt-get update && apt-get install -y python3 {updates the package list and installs Python 3.}
-    CMD: Provides a default command to run when the container starts. It should be used only once in a Dockerfile. 
+- ```CMD:``` Provides a default command to run when the container starts. It should be used only once in a Dockerfile. 
          It can be overridden by specifying a command when running the container.
          It is usually specifies the main application to run inside the container.
         Example : CMD ["python3", "app.py"] {runs the app.py script using Python 3 when the container starts.}    
-    COPY: Copies files or directories from the host machine to the container
+- ```COPY```: Copies files or directories from the host machine to the container
         Example : COPY . /app {copies the current directory contents into the container at /app}
-    ADD: Copies files, directories, or remote file URLs from the host machine to the container. 
+- ```ADD```: Copies files, directories, or remote file URLs from the host machine to the container. 
          It can also extract tar files into the container.
         Example : ADD myapp.tar.gz /app {extracts the myapp.tar.gz file into the /app directory in the container.}  
-        # Difference between ADD and COPY:
+    ### Difference between ADD and COPY:
         COPY is preferred for copying local files and directories as it is more explicit and has fewer side effects.
         ADD has additional features like extracting tar files and fetching remote files, but these features can lead to unexpected behavior.
         Therefore, it is recommended to use COPY unless you specifically need the extra functionality provided by ADD    
-    LABEL: Adds metadata to an image. It is used to provide information about the image, such as the maintainer's name and version.
+- ```LABEL```: Adds metadata to an image. It is used to provide information about the image, such as the maintainer's name and version.
            It helps in organizing and managing images. It is in key-value pair format. It can be used multiple times in a Dockerfile. It can be used to filter images. 
         Example : LABEL maintainer="name@example.com" {adds a maintainer label to the image.}
                     LABEL "com.example.vendor"="ACME Incorporated"
@@ -161,29 +170,36 @@ Docker file commands:
                     LABEL version="1.0"
                     LABEL description="This text illustrates \
                     that label-values can span multiple lines."
-    EXPOSE: Informs Docker that the container listens on the specified network ports at runtime. 
+- ```EXPOSE```: Informs Docker that the container listens on the specified network ports at runtime. 
             It does not actually publish the port. It is used for documentation purposes.
         Example : EXPOSE 80 {indicates that the container listens on port 80.}
-    ENV: Sets environment variables in the container. It is used to configure the container's behavior. Can be overridden at runtime.
+- ```ENV```: Sets environment variables in the container. It is used to configure the container's behavior. Can be overridden at runtime.
         Example : ENV APP_ENV=production {sets the APP_ENV environment variable to "production".}
-    WORKDIR: Sets the working directory for subsequent instructions in the Dockerfile. It is used to change the current directory. Docker doesnt respect the cd command.
+- ```WORKDIR```: Sets the working directory for subsequent instructions in the Dockerfile. It is used to change the current directory. Docker doesnt respect the cd command.
          If the directory does not exist, it will be created.
         Example : WORKDIR /app {sets the working directory to /app.}
-    ENTRYPOINT: Configures a container to run as an executable. It allows you to specify a command that will always be executed when the container starts. Cannot be overridden at runtime, it will fail.
+- ```ENTRYPOINT```: Configures a container to run as an executable. It allows you to specify a command that will always be executed when the container starts. Cannot be overridden at runtime, it will fail.
                 Can be used to create a container that behaves like a standalone executable. CMD can be used to provide default arguments to the entry point.
+
         Example : ENTRYPOINT ["python3", "app.py"] {sets the entry point to run the app.py script using Python 3.}
+
         Example: ENTRYPOINT ["echo"]
+
                  CMD ["Hello, World!"]
+
         When the container starts, it will execute the command: echo "Hello, World!"
+
         During runtime, if you provide additional arguments, they will be appended to the ENTRYPOINT command.
+
         For example, if you run the container with: docker run <image_name> "Goodbye!"
+
         The executed command will be: echo "Goodbye!"
-    USER: Sets the user name or UID to use when running the image and for any RUN, CMD, and ENTRYPOINT instructions that follow it in the Dockerfile. By default, the user is root.
+- ```USER```: Sets the user name or UID to use when running the image and for any RUN, CMD, and ENTRYPOINT instructions that follow it in the Dockerfile. By default, the user is root.
          It is used to improve security by running the container with a non-root user.
         Example : USER appuser {sets the user to "appuser".}
-    VOLUME: Creates a mount point with the specified path and marks it as holding externally mounted volumes from native host or other containers.
+- ```VOLUME```: Creates a mount point with the specified path and marks it as holding externally mounted volumes from native host or other containers.
         Example : VOLUME /data {creates a volume at /data.}   
-    ARG: Defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag.
+- ```ARG```: Defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag.
          It can be the first instruction in a Dockerfile. It is used to customize the build process.
          ARG declared before a FROM instruction is not available after the FROM instruction.
         Example : ARG APP_VERSION=1.0 {defines a build-time variable named APP_VERSION with a default value of "1.0".}     
@@ -193,19 +209,21 @@ Docker file commands:
         When building the image, you can specify a different value for APP_VERSION:
         docker build --build-arg APP_VERSION=2.0 -t myapp:2.0 .
         This will output: Building version 2.0
-    # ARG vs ENV : 
+    ### ARG vs ENV : 
     ARG is only available during the build process, while ENV is available during both build and runtime.
     ARG is used to pass build-time variables, while ENV is used to set environment variables in the container.
     ARG values cannot be accessed after the image is built, whereas ENV values persist in the running container.
-    SHELL: Allows the default shell used for the shell form of commands to be overridden. 
+- ```SHELL```: Allows the default shell used for the shell form of commands to be overridden. 
          It is used to change the shell used to execute commands in the Dockerfile especially in Windows containers where the default shell is cmd.exe or PowerShell.
         Example : SHELL ["/bin/bash", "-c"] {sets the default shell to /bin/bash with the -c option.}
-    ONBUILD: Adds a trigger instruction to the image that will be executed when the image is used as the base for another build. Can be used to create base images that automatically include certain instructions when extended.
+- ```ONBUILD```: Adds a trigger instruction to the image that will be executed when the image is used as the base for another build. Can be used to create base images that automatically include certain instructions when extended.
+
          It is useful for creating reusable base images with predefined behaviors liken installing dependencies or setting up configurations.
+
         Example : ONBUILD RUN apt-get update && apt-get install -y curl {adds a trigger instruction to run the specified command when the image is used as a base image.}  
 
 
-### Docker network 
+## Docker network 
 Docker network is a virtual network that allows Docker containers to communicate with each other and with the host system.
 By default, Docker creates three networks: bridge, host, and none.
 - Bridge: The default network driver. It creates a private internal network on the host system.
@@ -214,25 +232,31 @@ By default, Docker creates three networks: bridge, host, and none.
 - None: Disables all networking for the container.
 
 - Custom network: Containers can communicate with each other using container names as hostnames.      
-    # Create a custom bridge network     
+    - Create a custom bridge network     
     docker network create <network_name>     
-    # Run containers in the custom network     
+    - Run containers in the custom network     
     docker run -d --name container1 --network <network_name> <image_name>     
     docker run -d --name container2 --network <network_name> <image_name>     
-    # Now container1 can communicate with container2 using its name as the hostname
+    - Now container1 can communicate with container2 using its name as the hostname
+```dockerfile
     docker network ls to list all networks
     docker network inspect <network_name> to inspect a network
     docker network rm <network_name> to remove a network
     docker network prune to remove all unused networks
     docker network connect <network_name> <container_id> to connect a container to a network
     docker network disconnect <network_name> <container_id> to disconnect a container from a network
+```
     
 
-#### DOCKER compose
+## DOCKER compose
 Docker Compose is a tool for defining and running multi-container Docker applications.
+
 With Compose, you use a YAML file to configure your application's services, networks, and volumes.
+
 Then, with a single command, you create and start all the services from your configuration.
+
 Example docker-compose.yml file:
+```
 version: '3'
 services:
   web:
@@ -243,21 +267,53 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: example  
+```
+In this example, we have defined two services: "web" which uses the Nginx image and maps port 8080 on the host to port 80 in the container, and "db" which uses the MySQL image and sets the root password using an environment variable.
+
 To run the application defined in the docker-compose.yml file, use the following command:
+```
 docker-compose up -d
+```
 The -d flag runs the containers in detached mode.
+
 You can create a network for the services to communicate with each other.
 
 for building an image using docker-compose in command use --build flag
+```
 docker-compose up -d --build
+```
 To stop and remove the containers, networks, and volumes defined in the docker-compose.yml file, use the following command:
+```
 docker-compose down
+```
+
+with compose you can also scale services to run multiple instances of a service using the --scale flag
+```docker-compose up -d --scale web=3
+```
+This command will run 3 instances of the "web" service defined in the docker-compose.yml
+
+with compose you can also do some tests for your container like a health check to check if your container is healthy or not using the healthcheck instruction in the docker-compose.yml file
+```services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+In this example, we have added a health check to the "web" service that uses the curl command to check if the Nginx server is responding. The health check will run every 30 seconds, with a timeout of 10 seconds, and will retry up to 3 times before marking the container as unhealthy.
 
 
-### Docker volumes
+## Docker volumes
 Docker volumes are used to persist data generated by and used by Docker containers.
+
 Volumes are stored in a part of the host filesystem which is managed by Docker (/var/lib/docker/volumes/ on Linux).
+
 Volumes are the preferred mechanism for persisting data generated by and used by Docker containers.
+
 You can create a volume using the following command:
  - docker volume create <volume_name>
 You can run a container with a volume using the following command:
@@ -274,7 +330,9 @@ There are two types of mounts in Docker: volumes and bind mounts.
 - Volumes: Managed by Docker and stored in Docker's storage area. They are the preferred way to persist data in Docker.
   Example for volume mount: docker run -d --name mycontainer -v myvolume:/data myimage
 - Bind mounts: Map a file or directory on the host machine to a file or directory in the container. They are useful for development and testing purposes.
+```sh
   Example: docker run -d --name mycontainer -v /host/data:/data myimage
+  ```
 
 There are named volumes and anonymous volumes.
 - Named volumes: Created and managed by Docker with a specific name. They can be reused across multiple containers.
@@ -284,7 +342,7 @@ There are named volumes and anonymous volumes.
 
 
 
-####Docker best practices
+## Docker best practices
 - Use official images from Docker Hub as base images whenever possible.
 - Keep images small by minimizing the number of layers and removing unnecessary files.
 - Use multi-stage builds to separate build and runtime environments.
@@ -300,42 +358,52 @@ There are named volumes and anonymous volumes.
 Multi-stage builds are a feature in Docker that allows you to use multiple FROM statements in a single Dockerfile.
 This enables you to create intermediate images that can be used to build the final image, reducing the overall size of the final image.
 Example Dockerfile using multi-stage builds:
-```Dockerfile
-# Stage 1: Build stage
+- Dockerfile
+## Stage 1: Build stage
 FROM golang:1.16 AS builder
 WORKDIR /app
 COPY . .
 RUN go build -o myapp
-# Stage 2: Final stage
+## Stage 2: Final stage
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/myapp .
 CMD ["./myapp"]
-```
-```
+
 In this example, the first stage uses the official Golang image to build a Go application. The second stage uses a lightweight Alpine image to run the built application.
 The final image only contains the necessary files to run the application, resulting in a smaller image size.
 
 
-##bDocker layers
+## Docker layers
 Docker images are made up of layers, which are essentially read-only filesystems stacked on top of each other.
+
 Each layer represents a set of changes made to the image, such as adding files, installing packages, or modifying configurations.
+
 When you build a Docker image, each instruction in the Dockerfile creates a new layer.
+
 Layers are cached, so if you rebuild an image and a layer hasn't changed, Docker will reuse the cached layer instead of rebuilding it.
+
 This makes subsequent builds faster and more efficient.
+
 You can view the layers of a Docker image using the docker history command:
+```
 docker history <image_name>
+```
 This command will display a list of layers, along with their sizes and the commands that created them.
+
 Make sure to order your Dockerfile instructions from least to most frequently changing to maximize layer caching and reduce build times.
+
 Combine related commands into a single instruction to minimize the number of layers and reduce image size.
-    Example: Instead of:
+```Dockerfile
+    Example Instead of:
     RUN apt-get update
     RUN apt-get install -y package1
     Use:
     RUN apt-get update && apt-get install -y package1
+```
 
 
-#### Docker Architecture
+## Docker Architecture
 Docker follows a client-server architecture consisting of three main components: Docker Client, Docker Daemon, and Docker Registry.
 - Docker Client: The Docker Client is the command-line interface (CLI) that users interact with to communicate with the Docker Daemon. It sends commands to the daemon to build, run, and manage Docker containers and images.
 - Docker Daemon: The Docker Daemon (dockerd) is the core component of Docker that runs on the host machine. It is responsible for building, running, and managing Docker containers. The daemon listens for Docker API requests from the Docker Client and processes them.
@@ -358,6 +426,6 @@ Docker follows a client-server architecture consisting of three main components:
 - Docker Documentation: Docker provides comprehensive documentation that covers all aspects of Docker, including installation, usage, best practices, and advanced topics. The documentation is regularly updated and serves as a valuable resource for users of all skill levels.
 - Docker Support and Services: Docker offers various support options and professional services for enterprises and organizations using Docker in production environments. This includes technical support, consulting, training, and certification programs to help users maximize the benefits of containerization with Docker.
 - Docker Updates and Releases: Docker regularly releases updates and new versions of its software to introduce new features, improve performance, and address security vulnerabilities. Users can stay informed about the latest releases through Docker's official channels and update their installations accordingly.
-- 
+
 
     
